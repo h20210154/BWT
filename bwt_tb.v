@@ -1,21 +1,22 @@
+//Name : Mayank
+//BITS ID : 2021H1400154P
+//Name : Urvi Barapatre
+//BITS ID : 2021H1400161P
+
 `timescale 1ns / 1ps
 
 module bwt_tb();
 
 reg enable,clock;
 reg [9:0]address;
-reg [8*1023-1:0]input_string;
+reg [8*1023:0]input_string;
 reg [7:0]character;
+reg [9:0]length;
+reg dummy;
 wire [7:0]out_string;
 wire done_flag_t;
-reg [9:0]length;
-wire [10:0]tempo;
 integer fd,i,j,k,fd2;
-reg dummy;
-wire [9:0] indo;
-
-
-bwt uut (.clk(clock), .en(enable), .adr(address), .in_string(character), .outstring(out_string), .tempo(tempo), .indo(indo), .length(length), .done_flag(done_flag_t));
+bwt uut (.clk(clock), .en(enable), .adr(address), .in_string(character), .outstring(out_string), .length(length), .done_flag(done_flag_t));
 
 initial
 begin
@@ -66,10 +67,8 @@ begin
     
 end
 
-
-
 #1 enable = 1'b0;
-fd2 = $fopen("D:\\strrr_write.txt", "w");
+fd2 = $fopen("D:\\string_write.txt", "w");
 
 
 
@@ -83,7 +82,7 @@ address=length-1;
 if (done_flag_t == 1'b1)
    begin
    
-       for (j=0; j<=length-1; j=j+1)
+       for (j=0; j<=length; j=j+1)
         begin
         $display ("bwt string is %s ",out_string);
         $fwrite(fd2,"%s",out_string);
@@ -92,11 +91,7 @@ if (done_flag_t == 1'b1)
 
 $fclose(fd2);
     end
-  
-
-
-
-
+ 
 end
 
 endmodule
